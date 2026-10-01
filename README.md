@@ -1,6 +1,6 @@
 # Gear Generator
 
-Gerador estático de perfis de engrenagens externas em DXF, integrado ao Factory Toolbox.
+Gerador estático de perfis de engrenagens externas, cremalheiras e anéis internos em DXF, integrado ao Factory Toolbox.
 
 - Pasta canônica: `Z:\Projetos\Gear Generator`, no compartilhamento da rede. Não trabalhar em cópias paralelas.
 - Site: https://guizlass-afk.github.io/GearGenerator/
@@ -9,7 +9,7 @@ Gerador estático de perfis de engrenagens externas em DXF, integrado ao Factory
 
 ## O que esta versão entrega
 
-Engrenagens retas ou helicoidais, com seleção de dentes, módulo normal, espessura, furo, ângulo e sentido de hélice. A referência selecionável é a cremalheira ISO 53:1998, tipos A, B, C ou D. Não há presets DIN/AGMA não verificados.
+Três famílias: engrenagem externa, cremalheira e anel interno. Todas oferecem dentes retos ou inclinados/helicoidais, com dentes, módulo normal e espessura configuráveis. Engrenagens externas têm furo; cremalheiras têm altura da base; anéis têm espessura radial da parede e raio de concordância da raiz em XY. A referência selecionável é a cremalheira ISO 53:1998, tipos A, B, C ou D. Não há presets DIN/AGMA não verificados.
 
 O SVG cotado da tela usa os mesmos pontos do contorno exportado. O desenho frontal preserva proporções; a pequena vista lateral é explicitamente esquemática. Download de DXF de corte, DXF com referências, SVG cotado e instruções CAD em TXT. Doze idiomas com bandeiras no seletor, navegação por teclado, RTL em árabe, temas claro/escuro e preferências locais compatíveis com o portal. Nada é enviado a um servidor.
 
@@ -17,11 +17,39 @@ O STEP não é disponibilizado: existe suporte STEP em kernels como Open CASCADE
 
 ## Detalhe ampliado dos dentes
 
-A tela inclui uma vista adicional de três dentes, formada pelos mesmos vértices da polilinha DXF. Mostra passo e espessura em arco no círculo primitivo, alturas ha/hf/h e ângulo de pressão entre a tangente ao círculo primitivo e a normal ao flanco no ponto de contato. O desenho cotado SVG baixado inclui a vista geral e esse detalhe.
+A tela inclui uma vista adicional de até três dentes, formada pelos mesmos vértices da polilinha DXF. Mostra passo e espessura em arco no círculo primitivo (lineares na linha primitiva da cremalheira), alturas ha/hf/h e ângulo de pressão entre a tangente ao círculo primitivo e a normal ao flanco no ponto de contato. O desenho cotado SVG baixado inclui a vista geral e esse detalhe.
 
-Os valores normais (n) e transversais (t) são separados: `pt=pi*mt`, `pn=pi*mn`, `st=pt/2` e `sn=pn/2`, para x=0 e sem redução por backlash. O raio ρn indicado é da ponta da ferramenta no plano normal; não representa um arco circular de raio constante na raiz da engrenagem. O DXF de corte permanece sem cotas ou desenhos auxiliares.
+Os valores normais (n) e transversais (t) são separados: `pt=pi*mt`, `pn=pi*mn`, `st=pt/2` e `sn=pn/2`, para x=0 e sem redução por backlash. Na engrenagem externa, o raio ρn indicado é da ponta da ferramenta no plano normal; não representa um arco circular de raio constante na raiz da engrenagem. O DXF de corte permanece sem cotas ou desenhos auxiliares.
 
-## Geometria e limites
+## Cremalheiras
+
+Comprimento `L = z*pi*mt`, com um número inteiro de dentes e extremidades no meio dos vãos. O eixo X acompanha o comprimento; Y=0 é a linha primitiva. Cabeça `y=ha*mn`, raiz `y=-hf*mn`, fundo `y=-hf*mn-baseHeight`. A base é medida abaixo da raiz, não desde a linha primitiva. A altura total é `(ha*+hf*)*mn+baseHeight`.
+
+O dente tem flancos retos com inclinação transversal `alpha_t`. Na seção normal, a metade da largura em altura y é `pi*mn/4-y*tan(alpha_n)`. A raiz da cremalheira usa o raio do perfil de referência selecionado; em XY, o arco se transforma em uma elipse quando beta não é zero. As coordenadas tangentes do lado direito vêm de `vc=-hf*mn+rho` e `uc=pi*mn/4-vc*tan(alpha_n)+rho/cos(alpha_n)`. O arco da raiz percorre de `pi+alpha_n` a `3*pi/2`, com X dividido por `cos(beta)`.
+
+A extrusão de uma cremalheira inclinada usa deslocamento linear `deltaX=±b*tan(beta)` entre Z=0 e Z=b, sem rotação, mantendo os cortes paralelos a XY. As opções +X/−X definem essa direção explicitamente. As extremidades do prisma também ficam oblíquas; a versão atual não recorta as extremidades para um bloco retangular. O DXF representa Z=0 e não contém projeção isométrica ou envelope 3D. Suporta 1–400 dentes e base de 0,001 a 1.000 mm.
+
+## Anéis internos
+
+O DXF contém a abertura dentada interna em PROFILE e um círculo externo em OUTER. A região entre eles é o material. O contorno interno é horário; o círculo externo permanece uma entidade CIRCLE exata. A espessura radial da parede é independente da largura axial b.
+
+- `rp=mt*z/2`, `rb=rp*cos(alpha_t)`.
+- Cabeça interna `ra=rp-ha*mn`; raiz `rf=rp+hf*mn`.
+- Raio externo da peça `rout=rf+wall`.
+- Meio ângulo de um dente no raio r: `pi/(2*z)-inv(alpha_t)+inv(acos(rb/r))`.
+- É obrigatório `ra>rb`; por exemplo, sem deslocamento e a 20° no caso reto, o mínimo é 34 dentes. Esse limite só garante a existência da evolvente até a ponta. **Não valida interferência com um pinhão ou montagem planetária.**
+
+A raiz do anel usa uma concordância circular de projeto R, informada em milímetros no plano transversal XY. Ela **não simula a raiz gerada por uma ferramenta pinhão**. Os presets ISO 53 fornecem as proporções de altura, não um raio certificado para o anel. Os tipos A/B/C têm as mesmas alturas; ao usar o mesmo R, seus perfis de anel coincidem.
+
+Para uma raiz arredondada, a tangência é resolvida por bisseção em `rp<rj<rf`:
+
+`rj² - 2*R*sqrt(rj²-rb²) + R² = (rf-R)²`.
+
+No ponto da evolvente, com `a=acos(rb/rj)` e ângulo polar theta, o centro do arco é `Rotate(theta)*(rj-R*sin(a), R*cos(a))`. O arco fica tangente à evolvente e internamente ao círculo de raiz. Raios que entram na região abaixo do primitivo ou invadem o dente seguinte são bloqueados. R=0 é uma opção explícita de raiz sem concordância. A parede deve estar entre 0,001 e 1.000 mm; R deve ser zero ou ao menos 0,001 mm para evitar colapso numérico dos contornos; z vai até 400.
+
+Anéis helicoidais usam a mesma relação de torção `±b*tan(beta)/rp` da geometria circular externa, com sentido definido nas instruções. Não se deve aplicar automaticamente a regra de sentidos opostos de engrenagens externas a um par interno. A interface oculta essa instrução de par externo nos anéis. Não são gerados o sol, satélites, porta-satélites ou parâmetros de montagem/contato. Sem backlash, deslocamento de perfil, tolerâncias de fabricação ou cálculo de resistência.
+
+## Geometria e limites das engrenagens externas
 
 Valores da cremalheira normal (pressão normal fixa em 20°, deslocamento x=0):
 
@@ -72,8 +100,10 @@ O perfil não inclui backlash, correção de perfil, alívio, protuberância de 
 DXF ASCII AC1015 (AutoCAD 2000), coordenadas em mm, `$INSUNITS=4` e `$MEASUREMENT=1`.
 
 - `PROFILE`: uma LWPOLYLINE fechada, orientação anti-horária, em XY e Z=0.
-- `BORE`: um CIRCLE exato, se o furo for maior que zero.
-- Somente no download com referências: `REFERENCE` com círculos primitivo/base/raiz e `NOTES` com parâmetros. Não usar essas camadas para cortar ou extrudar.
+- `BORE`: um CIRCLE exato, somente na engrenagem externa se o furo for maior que zero.
+- `OUTER`: um CIRCLE exato somente no anel interno, delimitando o exterior da peça.
+- Na cremalheira, PROFILE inclui os dentes, extremidades e fundo: não há círculo ou furo artificial.
+- Somente no download com referências: `REFERENCE` com círculos primitivo/base/raiz (ou linhas primitiva/cabeça/raiz na cremalheira) e `NOTES` com parâmetros. Não usar essas camadas para cortar ou extrudar.
 
 As instruções especificam extrusão reta ou torção uniforme em torno da origem. Uma varredura helicoidal deve manter a seção paralela ao plano XY. Um loft simples entre duas seções não representa a mesma geometria. Ajustar a orientação do perfil do CAD para não introduzir inclinação adicional da seção.
 
@@ -83,9 +113,9 @@ Validação realizada com leitor independente ezdxf e geometria Shapely, não co
 
 Sem build ou dependências de produção. Servir a pasta com `python -m http.server 8091` e abrir http://127.0.0.1:8091/.
 
-Para os testes, instalar `python -m pip install -r tests/requirements.txt` e ter Google Chrome instalado (ou adaptar o canal do Playwright). Executar `python tests/test_app.py`. Opcionalmente, `GEAR_TEST_DEPS` aponta para uma pasta isolada de dependências instalada com `pip --target`.
+Para os testes, instalar `python -m pip install -r tests/requirements.txt` e ter Google Chrome instalado (ou adaptar o canal do Playwright). Executar `python tests/test_app.py` e `python tests/test_families.py`. Opcionalmente, `GEAR_TEST_DEPS` aponta para uma pasta isolada de dependências instalada com `pip --target`.
 
-A suite verifica 60 combinações de cremalheira/hélice/dentes e extremos de escala, ausência de auto-interseções, limites radiais e periodicidade, desvio contra envoltória e evolvente independentes, ponto a ponto do DXF realmente baixado, unidades, camadas, auditoria sem reparos, parâmetros inválidos, downloads, persistência, temas e 12 idiomas em 4 larguras de tela. Capturas e downloads são salvos em `%TEMP%/gear-test-output`.
+A suite verifica 60 combinações de cremalheira/hélice/dentes e extremos de escala, ausência de auto-interseções, limites radiais e periodicidade, desvio contra envoltória e evolvente independentes, ponto a ponto do DXF realmente baixado, unidades, camadas, auditoria sem reparos, parâmetros inválidos, downloads, persistência, temas e 12 idiomas em 4 larguras de tela. A suite adicional verifica 72 combinações de cremalheira/anel, interseções do perfil com a linha primitiva para medir a espessura real do dente, evolvente interna e tangência do raio de raiz, orientação e validade dos contornos, extremos de escala, limites de entrada, exportações reais DXF/SVG/TXT e persistência em 12 idiomas e quatro larguras. Capturas e downloads são salvos em `%TEMP%/gear-test-output`.
 
 Traduções são editadas em `translations-source.json`; gerar `i18n.js` como `window.GearTranslations=` seguido do JSON e `;`. Manter chaves e placeholders iguais nos 12 idiomas.
 
@@ -94,6 +124,8 @@ Traduções são editadas em `translations-source.json`; gerar `i18n.js` como `w
 - ISO, escopo e edição da referência: https://www.iso.org/standard/22643.html
 - Drivetrain Hub, autores da referência técnica de cremalheiras e coeficientes A–D: https://www.drivetrainhub.com/notebooks/gears/tooling/Chapter%201%20-%20Basic%20Rack.html
 - Drivetrain Hub, geometria helicoidal e conversão normal/transversal: https://www.drivetrainhub.com/notebooks/gears/geometry/Chapter%203%20-%20Helical%20Gears.html
+- KHK, anéis internos e diferentes interferências com o pinhão: https://khkgears.net/pdf/internal-tech.pdf
+- KHK, geometria e considerações de engrenagens internas: https://khkgears.us/media/beqhhrye/gear-solutions_khk_internal-ring-gears-design-and-considerations.pdf
 - KHK, sistemas normal/transversal e sentidos de hélice em pares: https://khkgears.net/pdf/helical-tech.pdf
 - Autodesk, LWPOLYLINE: https://help.autodesk.com/cloudhelp/2018/ENU/AutoCAD-DXF/files/GUID-748FC305-F3F2-4F74-825A-61F04D757A50.htm
 - Autodesk, unidades no HEADER: https://help.autodesk.com/cloudhelp/2021/ENU/AutoCAD-DXF/files/GUID-A85E8E67-27CD-4C59-BE61-4DC9FADBE74A.htm
