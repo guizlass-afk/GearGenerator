@@ -1,0 +1,15 @@
+/* Theme controls and palette, shared across the Factory Toolbox projects. */
+:root{color-scheme:light}
+.theme-toggle{--theme-travel:28px;position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:space-around;flex:0 0 auto;direction:ltr;width:62px;height:36px;padding:3px;border:1px solid #cbd9df;border-radius:20px;background:#e9f0f3;color:#738791;cursor:pointer;vertical-align:middle}
+.theme-toggle .theme-thumb{position:absolute;z-index:-1;top:4px;left:4px;width:26px;height:26px;background:#fff;border-radius:50%;box-shadow:0 1px 4px #172f3d22;transition:transform .2s ease,background .2s ease;pointer-events:none}
+.theme-toggle svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.theme-toggle .theme-sun{color:#b77b19}.theme-toggle:focus-visible{outline:3px solid #e49b58;outline-offset:3px}.theme-toggle:hover{border-color:#0b9a90}
+@media screen{
+ html[data-theme=dark]{color-scheme:dark;--ink:#e0ebf1;--muted:#a4bac7;--line:#324957;--surface:#192b37;--panel:#192b37;--bg:#101c26;--canvas:#111f2a;--teal:#42c4b8;--teal-dark:#6ad8cb;--teal-soft:#173b3b;--orange:#ff9a63;--orange-dark:#e48852;--blue:#83b6e2;--danger:#ff9a91;--shadow:0 8px 24px #0004}
+ html[data-theme=dark] .theme-toggle{background:#1c3545;border-color:#3b5b6c;color:#819aa9}
+ html[data-theme=dark] .theme-toggle .theme-thumb{transform:translateX(var(--theme-travel));background:#355c71;box-shadow:none}
+ html[data-theme=dark] .theme-toggle .theme-sun{color:#819aa9}html[data-theme=dark] .theme-toggle .theme-moon{color:#a5e7ef}
+}
+@media(max-width:760px){.theme-toggle{--theme-travel:20px;width:48px;height:30px;padding:2px}.theme-toggle .theme-thumb{top:3px;left:3px;width:22px;height:22px}.theme-toggle svg{width:16px;height:16px}}
+@media(prefers-reduced-motion:reduce){.theme-toggle .theme-thumb{transition:none}}
+@media print{.theme-toggle{display:none!important}}
