@@ -8,7 +8,21 @@ try{language=localStorage.getItem(storage+'language')||localStorage.getItem('fac
 if(!languages[language])language='pt-BR';
 const t=(key,values={})=>{let s=(GearTranslations[language]||GearTranslations['pt-BR'])[key]||GearTranslations['pt-BR'][key]||key;for(const [k,v]of Object.entries(values))s=s.replaceAll('{'+k+'}',v);return s;};
 const f=(n,digits=3)=>new Intl.NumberFormat(language,{maximumFractionDigits:digits}).format(n);
-for(const [code,label]of Object.entries(languages)){const option=document.createElement('option');option.value=code;option.textContent=label;$('language').append(option);}
+const flags={'pt-BR':'br','en-US':'us','es-ES':'es','zh-CN':'cn','hi-IN':'in','ar-SA':'sa','fr-FR':'fr','bn-BD':'bd','ru-RU':'ru','de-DE':'de','it-IT':'it','ja-JP':'jp'};
+const languageButton=$('languageButton'),languageMenu=$('languageMenu');
+function setLanguageMenu(open){languageMenu.hidden=!open;languageButton.setAttribute('aria-expanded',String(open));if(open)languageMenu.querySelector(`[data-language="${language}"]`).focus();}
+for(const [code,label]of Object.entries(languages)){
+ const option=document.createElement('button');option.type='button';option.setAttribute('role','option');option.dataset.language=code;
+ const flag=document.createElement('img');flag.src=`flags/${flags[code]}.svg`;flag.alt='';option.append(flag,document.createTextNode(label));languageMenu.append(option);
+ option.addEventListener('click',()=>{language=code;try{localStorage.setItem(storage+'language',language);}catch{}languageChange();setLanguageMenu(false);languageButton.focus();});
+}
+languageButton.addEventListener('click',()=>setLanguageMenu(languageMenu.hidden));
+document.addEventListener('click',e=>{if(!e.target.closest('#languagePicker'))setLanguageMenu(false);});
+$('languagePicker').addEventListener('keydown',e=>{
+ if(e.key==='Escape'){setLanguageMenu(false);languageButton.focus();e.stopPropagation();}
+ if(e.key==='Tab')setLanguageMenu(false);
+ if(['ArrowDown','ArrowUp','Home','End'].includes(e.key)){e.preventDefault();if(languageMenu.hidden){setLanguageMenu(true);return;}const options=[...languageMenu.children],i=options.indexOf(document.activeElement),next=e.key==='Home'?0:e.key==='End'?options.length-1:(i+(e.key==='ArrowDown'?1:-1)+options.length)%options.length;options[next].focus();}
+});
 function read(){const p={};for(const id of ids)p[id]=numeric.includes(id)?($(id).value.trim()===''?NaN:Number($(id).value)):$(id).value;return p;}
 function set(p){for(const id of ids)$(id).value=p[id];}
 try{const saved=JSON.parse(localStorage.getItem(storage+'selection'));if(saved){GearGeometry.dimensions(saved);set(saved);}}catch{}
@@ -16,7 +30,7 @@ function steps(g){
  const data={width:f(g.width),twist:f(g.twist,6),lead:g.lead?f(g.lead,6):'—',da:f(2*g.ra,6),d:f(2*g.rp,6),bore:f(g.bore,6)};
  return[t('step1'),t(g.type==='spur'?'stepSpur':'stepHelix',data),...(g.type==='helical'?[t('stepHand',data)]:[]),t('stepCheck',data)];
 }
-function drawing(){if(!current)return;$('drawing').innerHTML=GearDrawing.svg(current,t,$('guides').checked);}
+function drawing(){if(!current)return;$('drawing').innerHTML=GearDrawing.svg(current,t,$('guides').checked);$('toothDrawing').innerHTML=GearDrawing.detail(current,t);}
 function render(){
  clearTimeout(timer);$('helixFields').hidden=$('type').value!=='helical';
  const rack=GearGeometry.racks[$('rack').value];$('rackInfo').textContent=rack?`ha* = ${rack.ha} · hf* = ${rack.hf} · ρ* = ${rack.rho}`:'';
@@ -28,7 +42,7 @@ function render(){
  }
  for(const id of ['download','technical','svg','instructionsDownload'])$(id).disabled=!current;
  $('metrics').replaceChildren();$('dimensions').replaceChildren();$('cadSteps').replaceChildren();
- if(!current){$('designation').textContent='—';$('drawing').textContent=t('empty');$('profileInfo').textContent='';return;}
+ if(!current){$('designation').textContent='—';$('drawing').textContent=t('empty');$('toothDrawing').textContent=t('empty');$('profileInfo').textContent='';return;}
  const g=current;
  $('designation').textContent=`${t(g.type)} · z ${g.teeth} · mₙ ${f(g.module)}`;
  for(const [key,val,unit]of [['pitchDiameter',g.rp*2,'mm'],['tipDiameter',g.ra*2,'mm'],['rootDiameter',g.rf*2,'mm'],['twist',g.twist,'°']]){
@@ -41,12 +55,11 @@ function render(){
  for(const step of steps(g)){const li=document.createElement('li');li.textContent=step;$('cadSteps').append(li);}
 }
 function languageChange(){
- $('language').value=language;document.documentElement.lang=language;document.documentElement.dir=language==='ar-SA'?'rtl':'ltr';
+ $('currentFlag').src=`flags/${flags[language]}.svg`;$('currentLanguage').textContent=languages[language];languageButton.setAttribute('aria-label',languages[language]);languageMenu.querySelectorAll('button').forEach(o=>o.setAttribute('aria-selected',String(o.dataset.language===language))); document.documentElement.lang=language;document.documentElement.dir=language==='ar-SA'?'rtl':'ltr';
  document.querySelectorAll('[data-i18n]').forEach(e=>e.textContent=t(e.dataset.i18n));
  document.querySelector('meta[name=description]').content=t('subtitle');
  render();
 }
-$('language').addEventListener('change',()=>{language=$('language').value;try{localStorage.setItem(storage+'language',language);}catch{}languageChange();});
 $('parameters').addEventListener('submit',e=>e.preventDefault());
 $('parameters').addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(render,100);});
 $('parameters').addEventListener('change',render);
@@ -59,7 +72,7 @@ function save(content,mime,ext,suffix=''){
 }
 $('download').addEventListener('click',()=>{render();if(current)save(GearGeometry.dxf(current),'application/dxf','dxf');});
 $('technical').addEventListener('click',()=>{render();if(current)save(GearGeometry.dxf(current,true),'application/dxf','dxf','_reference');});
-$('svg').addEventListener('click',()=>{render();if(current)save(GearDrawing.svg(current,t,true),'image/svg+xml','svg','_dimensions');});
+$('svg').addEventListener('click',()=>{render();if(current)save(GearDrawing.sheet(current,t),'image/svg+xml','svg','_dimensions');});
 $('instructionsDownload').addEventListener('click',()=>{render();if(current)save(`Gear Generator | ISO 53:1998 ${current.rack}\n${$('designation').textContent}\n\n${steps(current).map((s,i)=>`${i+1}. ${s}`).join('\n\n')}\n\n${t('scopeNote')}\n${t('helicalNote')}\n\nhttps://www.iso.org/standard/22643.html\nhttps://www.drivetrainhub.com/notebooks/gears/tooling/Chapter%201%20-%20Basic%20Rack.html\n`,'text/plain;charset=utf-8','txt','_CAD');});
 window.GearApp={getState:()=>current,getLanguage:()=>language,render};languageChange();
 })();

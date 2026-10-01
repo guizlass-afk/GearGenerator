@@ -60,7 +60,16 @@
     "stepHelix": "Crie uma extrusão com torção constante de {twist}° ao longo de {width} mm em +Z, em torno da origem. Se o CAD não tiver essa operação, use uma varredura helicoidal que mantenha a seção paralela ao plano XY.",
     "stepHand": "Convenção: vista de +Z olhando para a origem, a rotação da seção em Z=0 até Z=b é positiva no sentido anti-horário. Hélice direita: positiva; esquerda: negativa. Passo de uma volta: {lead} mm.",
     "stepCheck": "Confira da = {da} mm, d = {d} mm e furo = {bore} mm após importar. A espessura não altera o DXF 2D. Não use um loft simples entre apenas duas seções para aproximar a hélice.",
-    "empty": "Ajuste os parâmetros para gerar o desenho."
+    "empty": "Ajuste os parâmetros para gerar o desenho.",
+    "toothDetail": "Detalhe ampliado do dente",
+    "toothPitch": "Passo circular",
+    "toothThickness": "Espessura do dente no primitivo",
+    "toothAddendum": "Altura da cabeça",
+    "toothDedendum": "Altura do pé",
+    "toothHeight": "Altura total do dente",
+    "toothPressure": "Ângulo de pressão",
+    "toolRadius": "Raio da ponta da ferramenta (normal)",
+    "toothNote": "t = transversal; n = normal. pt e st: medidas em arco no primitivo. ρn é da ferramenta, não o raio do pé do dente."
   },
   "en-US": {
     "back": "← Toolbox",
@@ -123,7 +132,16 @@
     "stepHelix": "Create an extrusion with a constant twist of {twist}° over {width} mm along +Z, around the origin. If your CAD lacks this operation, use a helical sweep that keeps the section parallel to the XY plane.",
     "stepHand": "Convention: viewed from +Z toward the origin, section rotation from Z=0 to Z=b is positive counterclockwise. Right-hand helix: positive; left-hand: negative. Lead per turn: {lead} mm.",
     "stepCheck": "After import, check da = {da} mm, d = {d} mm and bore = {bore} mm. Face width does not change the 2D DXF. Do not approximate the helix with a simple loft between just two sections.",
-    "empty": "Adjust the parameters to generate the drawing."
+    "empty": "Adjust the parameters to generate the drawing.",
+    "toothDetail": "Enlarged tooth detail",
+    "toothPitch": "Circular pitch",
+    "toothThickness": "Tooth thickness at reference circle",
+    "toothAddendum": "Addendum",
+    "toothDedendum": "Dedendum",
+    "toothHeight": "Whole tooth depth",
+    "toothPressure": "Pressure angle",
+    "toolRadius": "Tool tip radius (normal)",
+    "toothNote": "t = transverse; n = normal. pt and st: arc lengths at the reference circle. ρn belongs to the tool, not the gear root."
   },
   "es-ES": {
     "back": "← Toolbox",
@@ -186,7 +204,16 @@
     "stepHelix": "Cree una extrusión con torsión constante de {twist}° a lo largo de {width} mm en +Z, alrededor del origen. Si el CAD no ofrece esta operación, use un barrido helicoidal que mantenga la sección paralela al plano XY.",
     "stepHand": "Convención: mirando desde +Z hacia el origen, la rotación de la sección de Z=0 a Z=b es positiva en sentido antihorario. Hélice derecha: positiva; izquierda: negativa. Paso por vuelta: {lead} mm.",
     "stepCheck": "Tras importar, compruebe da = {da} mm, d = {d} mm y agujero = {bore} mm. El espesor no cambia el DXF 2D. No aproxime la hélice con una transición simple entre solo dos secciones.",
-    "empty": "Ajuste los parámetros para generar el dibujo."
+    "empty": "Ajuste los parámetros para generar el dibujo.",
+    "toothDetail": "Detalle ampliado del diente",
+    "toothPitch": "Paso circular",
+    "toothThickness": "Espesor en el círculo primitivo",
+    "toothAddendum": "Altura de cabeza",
+    "toothDedendum": "Altura de pie",
+    "toothHeight": "Altura total del diente",
+    "toothPressure": "Ángulo de presión",
+    "toolRadius": "Radio de punta de herramienta (normal)",
+    "toothNote": "t = transversal; n = normal. pt y st: longitudes de arco en el primitivo. ρn es de la herramienta, no de la raíz del diente."
   },
   "fr-FR": {
     "back": "← Toolbox",
@@ -249,7 +276,16 @@
     "stepHelix": "Créez une extrusion avec une torsion constante de {twist}° sur {width} mm suivant +Z, autour de l’origine. Sinon, utilisez un balayage hélicoïdal maintenant la section parallèle au plan XY.",
     "stepHand": "Convention : vue depuis +Z vers l’origine, la rotation de la section entre Z=0 et Z=b est positive dans le sens antihoraire. Hélice droite : positive ; gauche : négative. Pas par tour : {lead} mm.",
     "stepCheck": "Après import, vérifiez da = {da} mm, d = {d} mm et alésage = {bore} mm. La largeur ne modifie pas le DXF 2D. N’approximez pas l’hélice par un simple lissage entre seulement deux sections.",
-    "empty": "Ajustez les paramètres pour générer le dessin."
+    "empty": "Ajustez les paramètres pour générer le dessin.",
+    "toothDetail": "Détail agrandi de la dent",
+    "toothPitch": "Pas circulaire",
+    "toothThickness": "Épaisseur sur le cercle primitif",
+    "toothAddendum": "Saillie",
+    "toothDedendum": "Creux",
+    "toothHeight": "Hauteur totale de dent",
+    "toothPressure": "Angle de pression",
+    "toolRadius": "Rayon de tête de l’outil (normal)",
+    "toothNote": "t = transversal ; n = normal. pt et st : longueurs d’arc sur le cercle primitif. ρn est le rayon de l’outil, pas du pied de dent."
   },
   "de-DE": {
     "back": "← Toolbox",
@@ -312,7 +348,16 @@
     "stepHelix": "Erzeugen Sie eine Extrusion mit konstanter Verdrehung von {twist}° über {width} mm entlang +Z um den Ursprung. Alternativ verwenden Sie einen Schrauben-Sweep, dessen Querschnitt parallel zur XY-Ebene bleibt.",
     "stepHand": "Konvention: von +Z zum Ursprung gesehen ist die Drehung von Z=0 nach Z=b gegen den Uhrzeigersinn positiv. Rechtsgängig: positiv; linksgängig: negativ. Steigung je Umdrehung: {lead} mm.",
     "stepCheck": "Prüfen Sie nach dem Import da = {da} mm, d = {d} mm und Bohrung = {bore} mm. Die Breite ändert die 2D-DXF nicht. Nähern Sie die Schraubenfläche nicht mit einem einfachen Loft aus nur zwei Schnitten an.",
-    "empty": "Passen Sie die Parameter an, um die Zeichnung zu erzeugen."
+    "empty": "Passen Sie die Parameter an, um die Zeichnung zu erzeugen.",
+    "toothDetail": "Vergrößertes Zahndetail",
+    "toothPitch": "Teilung",
+    "toothThickness": "Zahndicke am Teilkreis",
+    "toothAddendum": "Zahnkopfhöhe",
+    "toothDedendum": "Zahnfußhöhe",
+    "toothHeight": "Gesamte Zahnhöhe",
+    "toothPressure": "Eingriffswinkel",
+    "toolRadius": "Werkzeugkopfradius (Normalschnitt)",
+    "toothNote": "t = Stirnschnitt; n = Normalschnitt. pt und st: Bogenlängen am Teilkreis. ρn ist der Werkzeugradius, nicht der Zahnfußradius."
   },
   "it-IT": {
     "back": "← Toolbox",
@@ -375,7 +420,16 @@
     "stepHelix": "Crea un’estrusione con torsione costante di {twist}° su {width} mm lungo +Z, attorno all’origine. In alternativa usa uno sweep elicoidale che mantenga la sezione parallela al piano XY.",
     "stepHand": "Convenzione: guardando da +Z verso l’origine, la rotazione della sezione da Z=0 a Z=b è positiva in senso antiorario. Elica destra: positiva; sinistra: negativa. Passo per giro: {lead} mm.",
     "stepCheck": "Dopo l’importazione verifica da = {da} mm, d = {d} mm e foro = {bore} mm. La larghezza non cambia il DXF 2D. Non approssimare l’elica con un semplice loft tra due sole sezioni.",
-    "empty": "Regola i parametri per generare il disegno."
+    "empty": "Regola i parametri per generare il disegno.",
+    "toothDetail": "Dettaglio ingrandito del dente",
+    "toothPitch": "Passo circolare",
+    "toothThickness": "Spessore sulla circonferenza primitiva",
+    "toothAddendum": "Addendum",
+    "toothDedendum": "Dedendum",
+    "toothHeight": "Altezza totale del dente",
+    "toothPressure": "Angolo di pressione",
+    "toolRadius": "Raggio punta utensile (normale)",
+    "toothNote": "t = trasversale; n = normale. pt e st: lunghezze d’arco sul primitivo. ρn è il raggio dell’utensile, non del piede del dente."
   },
   "ru-RU": {
     "back": "← Toolbox",
@@ -438,7 +492,16 @@
     "stepHelix": "Создайте выдавливание с равномерным закручиванием {twist}° на длине {width} мм вдоль +Z вокруг начала координат. Иначе используйте винтовое протягивание, сохраняющее сечение параллельным плоскости XY.",
     "stepHand": "Соглашение: при взгляде с +Z на начало координат поворот сечения от Z=0 к Z=b против часовой стрелки положителен. Правая винтовая линия: плюс; левая: минус. Ход за оборот: {lead} мм.",
     "stepCheck": "После импорта проверьте da = {da} мм, d = {d} мм и отверстие = {bore} мм. Ширина не изменяет 2D DXF. Не заменяйте винтовую поверхность простым переходом лишь между двумя сечениями.",
-    "empty": "Настройте параметры для создания чертежа."
+    "empty": "Настройте параметры для создания чертежа.",
+    "toothDetail": "Увеличенный вид зуба",
+    "toothPitch": "Окружной шаг",
+    "toothThickness": "Толщина на делительной окружности",
+    "toothAddendum": "Высота головки",
+    "toothDedendum": "Высота ножки",
+    "toothHeight": "Полная высота зуба",
+    "toothPressure": "Угол давления",
+    "toolRadius": "Радиус вершины инструмента (норм.)",
+    "toothNote": "t = поперечный; n = нормальный. pt и st: длины дуг делительной окружности. ρn — радиус инструмента, а не корня зуба."
   },
   "zh-CN": {
     "back": "← 工具箱",
@@ -501,7 +564,16 @@
     "stepHelix": "围绕原点沿 +Z 拉伸 {width} mm，同时匀速扭转 {twist}°。若 CAD 无此功能，使用保持截面平行于 XY 平面的螺旋扫掠。",
     "stepHand": "约定：从 +Z 看向原点，从 Z=0 到 Z=b 的截面旋转以逆时针为正。右旋为正，左旋为负。每圈导程：{lead} mm。",
     "stepCheck": "导入后检查 da = {da} mm、d = {d} mm、孔径 = {bore} mm。齿宽不改变二维 DXF。不要仅用两个截面间的简单放样近似螺旋面。",
-    "empty": "调整参数以生成图形。"
+    "empty": "调整参数以生成图形。",
+    "toothDetail": "齿形放大详图",
+    "toothPitch": "圆周齿距",
+    "toothThickness": "分度圆齿厚",
+    "toothAddendum": "齿顶高",
+    "toothDedendum": "齿根高",
+    "toothHeight": "全齿高",
+    "toothPressure": "压力角",
+    "toolRadius": "刀具齿顶圆角半径（法向）",
+    "toothNote": "t = 端面；n = 法向。pt 和 st 是分度圆上的弧长。ρn 是刀具半径，不是齿根圆角半径。"
   },
   "ja-JP": {
     "back": "← ツールボックス",
@@ -564,7 +636,16 @@
     "stepHelix": "原点の周りで、+Z 方向に {width} mm 進む間に {twist}°を均一にねじって押し出します。この機能がない場合、断面を XY 平面と平行に保つらせんスイープを使います。",
     "stepHand": "規約：+Z から原点を見るとき、Z=0 から Z=b への断面の回転は反時計回りが正です。右ねじれは正、左ねじれは負です。1回転のリード：{lead} mm。",
     "stepCheck": "取り込み後に da = {da} mm、d = {d} mm、穴径 = {bore} mm を確認します。歯幅は2D DXFに影響しません。2断面だけの単純なロフトでらせん面を近似しないでください。",
-    "empty": "パラメータを調整して図面を生成してください。"
+    "empty": "パラメータを調整して図面を生成してください。",
+    "toothDetail": "歯の拡大詳細図",
+    "toothPitch": "円ピッチ",
+    "toothThickness": "基準円上の歯厚",
+    "toothAddendum": "歯末のたけ",
+    "toothDedendum": "歯元のたけ",
+    "toothHeight": "全歯たけ",
+    "toothPressure": "圧力角",
+    "toolRadius": "工具先端半径（歯直角）",
+    "toothNote": "t = 軸直角、n = 歯直角。pt と st は基準円上の弧の長さです。ρn は工具の半径であり、歯元の半径ではありません。"
   },
   "ar-SA": {
     "back": "← صندوق الأدوات",
@@ -627,7 +708,16 @@
     "stepHelix": "أنشئ بثقًا بالتواء منتظم قدره {twist}° على مسافة {width} mm باتجاه +Z حول نقطة الأصل. إن لم يدعم CAD ذلك، استخدم مسحًا حلزونيًا يبقي المقطع موازيًا للمستوى XY.",
     "stepHand": "الاتفاقية: عند النظر من +Z نحو الأصل، دوران المقطع من Z=0 إلى Z=b موجب عكس عقارب الساعة. الحلزون اليميني موجب واليساري سالب. التقدم لكل دورة: {lead} mm.",
     "stepCheck": "بعد الاستيراد تحقق من da = {da} mm وd = {d} mm والثقب = {bore} mm. العرض لا يغير DXF ثنائي الأبعاد. لا تقرّب الحلزون بعملية وصل بسيطة بين مقطعين فقط.",
-    "empty": "اضبط المعطيات لتوليد الرسم."
+    "empty": "اضبط المعطيات لتوليد الرسم.",
+    "toothDetail": "تفصيل مكبر للسن",
+    "toothPitch": "الخطوة الدائرية",
+    "toothThickness": "سماكة السن عند دائرة التقسيم",
+    "toothAddendum": "ارتفاع رأس السن",
+    "toothDedendum": "ارتفاع جذر السن",
+    "toothHeight": "ارتفاع السن الكلي",
+    "toothPressure": "زاوية الضغط",
+    "toolRadius": "نصف قطر طرف الأداة (عمودي)",
+    "toothNote": "t = عرضي؛ n = عمودي. pt وst طولان قوسيان عند دائرة التقسيم. ρn يخص الأداة وليس جذر السن."
   },
   "hi-IN": {
     "back": "← टूलबॉक्स",
@@ -690,7 +780,16 @@
     "stepHelix": "मूल बिंदु के चारों ओर +Z में {width} mm तक समान दर से {twist}° ट्विस्ट वाला एक्सट्रूज़न बनाएँ। यह सुविधा न हो तो ऐसा हेलिकल स्वीप लें जो काट को XY तल के समानांतर रखे।",
     "stepHand": "परंपरा: +Z से मूल बिंदु की ओर देखने पर Z=0 से Z=b तक काट का वामावर्त घुमाव धनात्मक है। दायाँ हेलिक्स: धनात्मक; बायाँ: ऋणात्मक। प्रति चक्कर लीड: {lead} mm।",
     "stepCheck": "आयात के बाद da = {da} mm, d = {d} mm और छेद = {bore} mm जाँचें। चौड़ाई 2D DXF नहीं बदलती। केवल दो काटों के बीच साधारण लॉफ्ट से हेलिक्स का अनुमान न बनाएँ।",
-    "empty": "चित्र बनाने के लिए मापदंड समायोजित करें।"
+    "empty": "चित्र बनाने के लिए मापदंड समायोजित करें।",
+    "toothDetail": "दाँत का बड़ा विस्तृत दृश्य",
+    "toothPitch": "वृत्तीय पिच",
+    "toothThickness": "पिच वृत्त पर दाँत की मोटाई",
+    "toothAddendum": "एडेंडम",
+    "toothDedendum": "डिडेंडम",
+    "toothHeight": "दाँत की कुल ऊँचाई",
+    "toothPressure": "प्रेशर एंगल",
+    "toolRadius": "टूल टिप त्रिज्या (नॉर्मल)",
+    "toothNote": "t = अनुप्रस्थ; n = नॉर्मल। pt और st पिच वृत्त पर चाप की लंबाई हैं। ρn टूल की त्रिज्या है, दाँत के रूट की नहीं।"
   },
   "bn-BD": {
     "back": "← টুলবক্স",
@@ -753,6 +852,15 @@
     "stepHelix": "মূলবিন্দুর চারদিকে +Z বরাবর {width} mm জুড়ে সমহারে {twist}° মোচড় দিয়ে এক্সট্রুশন তৈরি করুন। CAD-এ এটি না থাকলে এমন হেলিক্যাল সুইপ নিন যা ছেদকে XY সমতলের সমান্তরাল রাখে।",
     "stepHand": "রীতি: +Z থেকে মূলবিন্দুর দিকে দেখলে Z=0 থেকে Z=b পর্যন্ত ছেদের ঘড়ির কাঁটার বিপরীত ঘূর্ণন ধনাত্মক। ডান হেলিক্স ধনাত্মক, বাম ঋণাত্মক। প্রতি পাকে লিড: {lead} mm।",
     "stepCheck": "আমদানির পরে da = {da} mm, d = {d} mm এবং ছিদ্র = {bore} mm যাচাই করুন। প্রস্থ 2D DXF বদলায় না। মাত্র দুটি ছেদের মধ্যে সাধারণ লফট দিয়ে হেলিক্সের আনুমানিক রূপ বানাবেন না।",
-    "empty": "অঙ্কন তৈরির জন্য পরামিতি ঠিক করুন।"
+    "empty": "অঙ্কন তৈরির জন্য পরামিতি ঠিক করুন।",
+    "toothDetail": "দাঁতের বড় বিস্তারিত দৃশ্য",
+    "toothPitch": "বৃত্তীয় পিচ",
+    "toothThickness": "পিচ বৃত্তে দাঁতের বেধ",
+    "toothAddendum": "অ্যাডেন্ডাম",
+    "toothDedendum": "ডিডেন্ডাম",
+    "toothHeight": "দাঁতের মোট উচ্চতা",
+    "toothPressure": "চাপ কোণ",
+    "toolRadius": "টুলের অগ্রভাগের ব্যাসার্ধ (নরমাল)",
+    "toothNote": "t = আড়াআড়ি; n = নরমাল। pt ও st পিচ বৃত্তের চাপের দৈর্ঘ্য। ρn টুলের ব্যাসার্ধ, দাঁতের গোড়ার নয়।"
   }
 }

@@ -25,6 +25,8 @@ try:
   context=browser.new_context(viewport={'width':1440,'height':1000},accept_downloads=True)
   page=context.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
   page.goto(f'http://127.0.0.1:{server.server_port}/');page.wait_for_function('window.GearApp && GearApp.getState()')
+  def select_language(code):
+   page.locator('#languageButton').click();page.locator(f'[data-language="{code}"]').click();return True
   def profile(**kwargs):return page.evaluate('p=>GearGeometry.profile(p)',dict(DEFAULT,**kwargs))
   g=profile()
   assert g['rp']*2==48 and g['ra']*2==52 and g['rf']*2==43
@@ -100,23 +102,29 @@ try:
   with page.expect_download() as info:page.click('#instructionsDownload')
   path=OUT/info.value.suggested_filename;info.value.save_as(path);text=path.read_text(encoding='utf-8');assert 'PROFILE' in text and '+Z' in text and '{twist}' not in text
   with page.expect_download() as info:page.click('#svg')
-  path=OUT/info.value.suggested_filename;info.value.save_as(path);assert '<svg' in path.read_text(encoding='utf-8')
+  path=OUT/info.value.suggested_filename;info.value.save_as(path);svg=path.read_text(encoding='utf-8');assert 'data-tooth-outline' in svg and 'viewBox="0 0 1000 1150"' in svg
+  assert 'pt = 6.686' in svg and 'pn = 6.283' in svg and 'ha = 2 mm' in svg and 'hf = 2.5 mm' in svg
   translations=page.evaluate('GearTranslations');assert len(translations)==12
   for code,values in translations.items():
    assert values.keys()==translations['pt-BR'].keys() and all(values.values())
    for key,value in values.items():assert set(re.findall(r'\{(\w+)\}',value))==set(re.findall(r'\{(\w+)\}',translations['pt-BR'][key])),(code,key)
-   page.select_option('#language',code);assert page.locator('html').get_attribute('dir')==('rtl'if code=='ar-SA'else'ltr')
+   select_language(code);assert page.locator('#currentFlag').evaluate('e=>e.complete && e.naturalWidth>0');assert page.locator('html').get_attribute('dir')==('rtl'if code=='ar-SA'else'ltr')
+   assert page.locator('#toothDrawing svg').count()==1
    assert page.locator('#error').is_hidden() and len(page.locator('#cadSteps li').all())==4
    for width in [1440,768,390,320]:
     page.set_viewport_size({'width':width,'height':1000});assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'),(code,width)
-  page.select_option('#language','pt-BR');page.set_viewport_size({'width':1440,'height':1000});page.screenshot(path=str(OUT/'gear-light.png'),full_page=True)
+  select_language('pt-BR');page.set_viewport_size({'width':1440,'height':1000});page.screenshot(path=str(OUT/'gear-light.png'),full_page=True)
   page.click('#themeToggle');assert page.locator('html').get_attribute('data-theme')=='dark';page.reload();page.wait_for_function('GearApp.getState()')
-  assert page.locator('html').get_attribute('data-theme')=='dark' and page.select_option('#language','pt-BR')
+  assert page.locator('html').get_attribute('data-theme')=='dark' and select_language('pt-BR')
   assert page.locator('#hand').input_value()=='L' and page.locator('#type').input_value()=='helical'
   page.screenshot(path=str(OUT/'gear-dark.png'),full_page=True)
   page.select_option('#zoom','2');assert page.evaluate('document.querySelector("#viewport").scrollWidth>document.querySelector("#viewport").clientWidth')
   page.select_option('#zoom','1');assert page.evaluate('document.querySelector("#viewport").scrollWidth<=document.querySelector("#viewport").clientWidth+1')
   page.set_viewport_size({'width':390,'height':844});page.screenshot(path=str(OUT/'gear-mobile.png'),full_page=True)
+  page.locator('#languageButton').click()
+  assert page.locator('#languageMenu img').evaluate_all('imgs=>imgs.length===12 && imgs.every(e=>e.complete && e.naturalWidth>0)')
+  page.keyboard.press('End');assert page.locator('[data-language="ja-JP"]').evaluate('e=>e===document.activeElement')
+  page.keyboard.press('Escape');assert page.locator('#languageMenu').is_hidden()
   assert not errors,errors
   print(f'PASS: {checked} gear profiles + range extremes; analytic chord error; real DXF audit, units and coordinates; downloads; invalid input; 12 languages x 4 widths; RTL; themes and persistence.')
   browser.close()

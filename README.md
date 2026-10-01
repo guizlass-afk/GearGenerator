@@ -11,9 +11,15 @@ Gerador estático de perfis de engrenagens externas em DXF, integrado ao Factory
 
 Engrenagens retas ou helicoidais, com seleção de dentes, módulo normal, espessura, furo, ângulo e sentido de hélice. A referência selecionável é a cremalheira ISO 53:1998, tipos A, B, C ou D. Não há presets DIN/AGMA não verificados.
 
-O SVG cotado da tela usa os mesmos pontos do contorno exportado. O desenho frontal preserva proporções; a pequena vista lateral é explicitamente esquemática. Download de DXF de corte, DXF com referências, SVG cotado e instruções CAD em TXT. Doze idiomas, RTL em árabe, temas claro/escuro e preferências locais compatíveis com o portal. Nada é enviado a um servidor.
+O SVG cotado da tela usa os mesmos pontos do contorno exportado. O desenho frontal preserva proporções; a pequena vista lateral é explicitamente esquemática. Download de DXF de corte, DXF com referências, SVG cotado e instruções CAD em TXT. Doze idiomas com bandeiras no seletor, navegação por teclado, RTL em árabe, temas claro/escuro e preferências locais compatíveis com o portal. Nada é enviado a um servidor.
 
 O STEP não é disponibilizado: existe suporte STEP em kernels como Open CASCADE, mas esta versão não incorpora nem valida um kernel 3D ou um sólido torcido. DXF de engrenagem helicoidal é a seção transversal perpendicular ao eixo, não uma chapa que, apenas extrudada sem torção, se torne helicoidal.
+
+## Detalhe ampliado dos dentes
+
+A tela inclui uma vista adicional de três dentes, formada pelos mesmos vértices da polilinha DXF. Mostra passo e espessura em arco no círculo primitivo, alturas ha/hf/h e ângulo de pressão entre a tangente ao círculo primitivo e a normal ao flanco no ponto de contato. O desenho cotado SVG baixado inclui a vista geral e esse detalhe.
+
+Os valores normais (n) e transversais (t) são separados: `pt=pi*mt`, `pn=pi*mn`, `st=pt/2` e `sn=pn/2`, para x=0 e sem redução por backlash. O raio ρn indicado é da ponta da ferramenta no plano normal; não representa um arco circular de raio constante na raiz da engrenagem. O DXF de corte permanece sem cotas ou desenhos auxiliares.
 
 ## Geometria e limites
 
